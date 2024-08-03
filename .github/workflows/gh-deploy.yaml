@@ -1,0 +1,41 @@
+name: Github Deployment
+
+on:
+  push:
+    tags: 
+        - 'v*' # Push events to matching v*, i.e. v1.0, v20.15.10
+
+jobs:
+  build:
+    name: Build Angular App
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20.x] # Angular 18.x supports Node 20.x
+       
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: Setup NodeJS ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+          cache-dependency-path: package-lock.json
+
+      - name: Install dependencies
+        run: npm install --force
+
+      - name: Build
+        run: npm run build:prod
+
+      - name: Deploy to Github Pages
+        if: success()
+        uses:  JamesIves/github-pages-deploy-action@v4
+        with:
+            folder: dist/fund-vault/browser
+            branch: gh-pages
+            token: ${{ secrets.GIT_TOKEN }}
+            clean: true
