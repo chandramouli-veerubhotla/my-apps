@@ -1,10 +1,11 @@
 {
   "name": "my-apps",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build:prod": "ng build --configuration production --aot --base-href /my-apps/",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
@@ -20,6 +21,7 @@
     "@angular/platform-browser": "^18.1.0",
     "@angular/platform-browser-dynamic": "^18.1.0",
     "@angular/router": "^18.1.0",
+    "@angular/service-worker": "^18.1.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.3"
