@@ -1,3 +1,23 @@
 /* You can add global styles to this file, and also import other style files */
+
+// Style to fix the weird border with angular material
+.mdc-notched-outline__notch {
+    border-right: none !important;
+}
+
+// Material Symbols
+.material-symbols-rounded {
+    vertical-align: middle;
+    font-variation-settings:
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 24
+}
+  
+.symbols-filled {
+    font-variation-settings: 
+    'FILL'  1;
+}
+
 html, body { height: 100%; }
 body { margin: 0;  font-family: "Google Sans", "Poppins", sans-serif; }
