@@ -1,0 +1,52 @@
+<main class="w-full h-screen flex flex-col relative" [@slideIn]>
+    <header class="w-full h-16 app-container flex items-center justify-between">
+        <button routerLink="/finance/investment-tracker" class="material-symbols-rounded hover:text-primary-600">arrow_back</button>
+    </header>
+    <div class="w-full app-container space-y-1">
+        <h1 class="text-2xl md:text-3xl text-black font-bold font-ascent">New Tracker</h1>
+        <p class="text-md md:text-lg font-medium text-primary-600">Set Up Your New Investment Tracker</p>
+    </div>
+
+    <form class="w-full app-container text-sm font-medium space-y-3 mt-6" [formGroup]="form">
+        <mat-form-field appearance="outline" class="w-full">
+            <mat-label class="text-sm font-medium text-primary-600">Title</mat-label>
+            <input matInput formControlName="title" autocomplete="off" class="text-md font-bold text-primary-900" placeholder="Enter tracker name">
+            @if(titleControl?.hasError('required') && titleControl?.touched) {
+                <mat-error class="text-xs text-red-600">Title is <span class="font-bold">mandatory</span></mat-error>
+            }
+            @if(titleControl?.hasError('uniqueTitleValidation') && titleControl?.touched) {
+                <mat-error class="text-xs text-red-600">Title already exists</mat-error>
+            }
+            @if(titleControl?.hasError('maxlength') && titleControl?.touched) {
+                <mat-error class="text-xs text-red-600">Maximum <span class="font-bold">30 characters allowed.</span></mat-error>
+            }
+            @if(titleControl?.hasError('minlength') && titleControl?.touched) {
+                <mat-error class="text-xs text-red-600">Title should be atleast <span class="font-bold">3 characters.</span></mat-error>
+            }
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="w-full">
+            <mat-label class="text-sm font-medium text-primary-600">Default Interest Rate (%)</mat-label>
+            <input matInput formControlName="defaultInterestRate" type="number" class="text-md font-bold text-primary-900" placeholder="Enter Annual Interest Rate (%)">
+            @if(defaultInterestRate?.hasError('min') && defaultInterestRate?.touched) {
+                <mat-error class="text-xs text-red-600">Default Interest Rate cannot be less than <span class="font-bold">zero</span></mat-error>
+            }
+            @if(defaultInterestRate?.hasError('max') && defaultInterestRate?.touched) {
+                <mat-error class="text-xs text-red-600">Default Interest Rate cannot be greater than <span class="font-bold">100</span></mat-error>
+            }
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="w-full">
+            <mat-label class="text-sm font-medium text-primary-600">Description</mat-label>
+            <textarea matInput formControlName="description" class="text-md font-bold text-primary-900" placeholder="Write about this tracker"></textarea>
+            <mat-hint class="text-xs text-primary-600" align="end">{{ description?.value?.length }}/200</mat-hint>
+            @if(description?.hasError('maxlength') && description?.touched) {
+                <mat-error class="text-xs text-red-600">Maximum <span class="font-bold">200 characters allowed.</span></mat-error>
+            }
+
+        </mat-form-field>
+    </form>    
+
+    <div class="w-full app-container fixed bottom-0 space-y-2 py-8">
+        <button (click)="onSubmit()" [disabled]="!form.valid" class="w-full py-3 disabled:bg-primary-200 bg-primary-900 text-white font-medium rounded-full">Create New Tracker</button>
+        <p class="text-xs font-medium text-primary-600 text-center">To ensure maximum security and privacy, all data is stored exclusively on your device.</p>
+    </div>   
+</main>
