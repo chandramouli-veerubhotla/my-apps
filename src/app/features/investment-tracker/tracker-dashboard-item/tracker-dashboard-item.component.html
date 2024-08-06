@@ -1,0 +1,29 @@
+@if(tracker != null) {
+    <div
+    class="no-select w-full app-container py-4 hover:bg-primary-200/50 flex items-start gap-2"
+    [ngClass]="{'bg-primary-200/50': selected == true}">
+        <div class="w-12 h-12 bg-primary-200 rounded-full flex items-center justify-center relative">
+            <span class="material-symbols-rounded text-primary-600">account_balance</span>
+            @if (selected) {
+                <span class="absolute bottom-0 right-0 w-6 h-6 bg-emerald-600 text-white rounded-full flex items-center justify-center text-sm material-symbols-rounded">check</span>
+            }            
+        </div>
+        <div class="flex-1 overflow-hidden space-y-1">
+            <!-- Name and date -->
+            <div class="w-full flex items-center justify-between gap-2">
+                <div class="truncate">
+                    <div class="text-lg font-medium text-black text-wrap line-clamp-1">
+                        {{ tracker.title }}
+                    </div>
+                </div>
+                <span class="text-xs text-slate-800"> {{ tracker.updatedOn | date: 'shortTime' }}</span>
+            </div>
+            <!-- description and notification -->
+            <div class="w-full flex items-center justify-between gap-2">
+                <div class="truncate">
+                    <p class="text-sm font-medium text-primary-700 text-wrap line-clamp-1">{{tracker.updateMessage}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+}

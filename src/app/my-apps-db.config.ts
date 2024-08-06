@@ -18,6 +18,19 @@ export const dbConfig: DBConfig = {
         { name: 'updateMessage', keypath: 'updateMessage', options: { unique: false } },
         { name: 'updateNotificationId', keypath: 'updateNotificationId', options: { unique: false } },
       ]
+    },
+    {
+      store: 'investments',
+      storeConfig: { keyPath: 'id', autoIncrement: false },
+      storeSchema: [
+        { name: 'title', keypath: 'title', options: { unique: false } },
+        { name: 'amount', keypath: 'amount', options: { unique: false } },
+        { name: 'interestRate', keypath: 'interestRate', options: { unique: false } },
+        { name: 'investedOn', keypath: 'investedOn', options: { unique: false } },
+        { name: 'isCredit', keypath: 'isCredit', options: { unique: false } },
+        { name: 'trackerId', keypath: 'trackerId', options: { unique: false } },
+        { name: 'createdOn', keypath: 'createdOn', options: { unique: false } }
+      ]
     }
   ]
 };

@@ -1,0 +1,39 @@
+@if (investment != null) {
+    <div class="w-full app-container py-1 flex items-center gap-2" [ngClass]="{'flex-row-reverse': rigthtAligned, 'bg-primary-200/50': selected == true}">
+        <div class="w-4/5 lg:w-1/2 border border-slate-300 rounded-lg p-1">
+            @if(!rigthtAligned) {
+                <div class="px-2 text-xs space-y-1 mb-2">
+                    <div class="font-light text-black tracking-wide"><span class="font-bold text-ascent-500">MY</span> Apps</div>
+                    <div class="flex items-center space-x-1 italic">
+                        <span class="material-symbols-rounded text-xs">alarm</span>
+                        <span class="text-xs">Remainder</span>
+                    </div>
+                </div>
+            }
+            <div class="w-full max-h-48  rounded-lg px-2 pt-2 pb-4 space-y-2" [ngClass]="{'bg-red-100/50': !investment.isCredit, 'bg-emerald-100/50': investment.isCredit}">
+                <div>
+                    <div class="text-wrap line-clamp-2 text-lg font-medium text-slate-800">{{investment.title}}</div>
+                </div>                
+                <div class="text-xl text-emerald-600 font-bold" [ngClass]="{'text-red-600': !investment.isCredit, 'text-emerald-600': investment.isCredit}">
+                    @if(investment.isCredit) {
+                        + {{investment.amount | currency: 'INR'}}
+                    } @else {
+                        - {{investment.amount | currency: 'INR'}}
+                    }
+                </div>
+            </div>
+            <div class="px-2 pt-1 text-xs float-end space-y-1 mb-2">
+                <div class="flex items-center space-x-2">
+                    <span class="text-xs">{{investment.investedOn | date: 'shortTime'}}</span>
+                    <span class="text-sm material-symbols-rounded text-emerald-600">done_all</span>
+                </div>
+            </div>
+        </div>
+        @if(canShare) {
+            <div class="flex-none">
+                <button
+                    class="p-2.5 text-md bg-white hover:bg-slate-900 hover:text-white border border-slate-300 rounded-full material-symbols-rounded">share</button>
+            </div>
+        }    
+    </div>
+}

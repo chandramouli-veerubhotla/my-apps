@@ -1,0 +1,90 @@
+<main class="w-full h-screen flex flex-col relative" [@slideIn]>
+    <header class="w-full h-16 app-container flex items-center justify-between">
+        <button routerLink="/finance/investment-tracker" class="material-symbols-rounded hover:text-primary-600">arrow_back</button>
+    </header>
+    <div class="w-full app-container space-y-1">
+        <h1 class="text-2xl md:text-3xl text-black font-bold font-ascent">New Investment</h1>
+        <p class="text-md md:text-lg font-medium text-primary-600">Track your investment information securely</p>
+    </div>
+
+    <form class="w-full app-container text-sm font-medium space-y-3 mt-6" [formGroup]="form">
+        <mat-form-field appearance="outline" class="w-full">
+            <mat-label class="text-sm font-medium text-primary-600">Title</mat-label>
+            <input matInput formControlName="title" autocomplete="off" class="text-md font-bold text-primary-900" placeholder="Enter investment name">
+            @if(titleControl?.hasError('required') && titleControl?.touched) {
+                <mat-error class="text-xs text-red-600">Title is <span class="font-bold">mandatory</span></mat-error>
+            }
+            @if(titleControl?.hasError('maxlength') && titleControl?.touched) {
+                <mat-error class="text-xs text-red-600">Maximum <span class="font-bold">30 characters allowed.</span></mat-error>
+            }
+            @if(titleControl?.hasError('minlength') && titleControl?.touched) {
+                <mat-error class="text-xs text-red-600">Title should be atleast <span class="font-bold">3 characters.</span></mat-error>
+            }
+        </mat-form-field>
+
+        <div class="grid grid-cols-3 gap-2">
+            <div>
+                <mat-form-field appearance="outline" class="w-full">
+                    <mat-label class="text-sm font-medium text-primary-600">Type</mat-label>
+                    <mat-select #isCredit formControlName="isCredit">
+                        <mat-option [value]="true">Credit</mat-option>
+                        <mat-option [value]="false">Debit</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-span-2">
+                <mat-form-field appearance="outline" class="w-full">
+                    <mat-label class="text-sm font-medium text-primary-600">Amount</mat-label>
+                    <input matInput #amount formControlName="amount" type="number" class="text-md font-bold text-primary-900" placeholder="Enter amount">
+                    <mat-hint>
+                        @if (amount?.value != '') {
+                            @if(isCredit?.value == true) {
+                                <span class="text-green-600">You are investing {{amount.value | currency: 'INR'}}</span>
+                            } @else {
+                                <span class="text-red-600">You are borrowing {{amount.value | currency: 'INR'}}</span>
+                            }
+                        }
+                    </mat-hint>
+                    @if(amountControl?.hasError('min') && amountControl?.touched) {
+                        <mat-error class="text-xs text-red-600">Amount cannot be less than <span class="font-bold">1</span></mat-error>
+                    }
+                </mat-form-field>
+            </div>
+        </div>
+        <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Investment Date</mat-label>
+            <input matInput #date formControlName="investedOn" [matDatepicker]="picker" (focus)="picker.open()" (click)="picker.open()" placeholder="Choose investment date">
+            @if(investedOnControl?.hasError('required') && investedOnControl?.touched) {
+                <mat-error class="text-xs text-red-600">Investment Date is <span class="font-bold">mandatory</span></mat-error>
+            }
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            @if (date?.value != '') {
+                <mat-hint class="text-xs text-primary-600">
+                    @if (isCredit?.value == true) {
+                        You invested on {{date.value | date: 'mediumDate'}}
+                    } @else {
+                        You borrowed on {{date.value | date: 'mediumDate'}}
+                    }
+                </mat-hint>
+            } @else {
+                <mat-hint class="text-xs text-primary-600">MM/DD/YYYY</mat-hint>
+            }
+          </mat-form-field>
+        <mat-form-field appearance="outline" class="w-full">
+            <mat-label class="text-sm font-medium text-primary-600">Interest Rate (%)</mat-label>
+            <input matInput formControlName="interestRate" type="number" class="text-md font-bold text-primary-900" placeholder="Enter Annual Interest Rate (%)">
+            @if(interestRateControl?.hasError('min') && interestRateControl?.touched) {
+                <mat-error class="text-xs text-red-600">Annual Interest Rate cannot be less than <span class="font-bold">zero</span></mat-error>
+            }
+            @if(interestRateControl?.hasError('max') && interestRateControl?.touched) {
+                <mat-error class="text-xs text-red-600">Annual Interest Rate cannot be greater than <span class="font-bold">100</span></mat-error>
+            }
+        </mat-form-field>        
+    </form>    
+
+    <div class="w-full app-container fixed bottom-0 space-y-2 py-8">
+        <button (click)="onSubmit()" [disabled]="!form.valid" class="w-full py-3 disabled:bg-primary-200 bg-primary-900 text-white font-medium rounded-full">Create New Investment</button>
+        <p class="text-xs font-medium text-primary-600 text-center">To ensure maximum security and privacy, all data is stored exclusively on your device.</p>
+    </div>   
+</main>

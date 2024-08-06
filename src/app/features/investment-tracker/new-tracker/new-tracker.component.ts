@@ -17,7 +17,7 @@ import { catchError, debounceTime, first, map, Observable, of, switchMap } from 
   styleUrl: './new-tracker.component.scss',
   animations: [
     trigger('slideIn', [
-      state('void', style({ transform: 'translateX(100%)', opacity: 0 })),
+      state('void', style({ transform: 'translateX(50%)', opacity: 0 })),
       state('*', style({ transform: 'translateX(0)', opacity: 1 })),
       transition(':enter', [
         animate('0.15s ease-in')
@@ -69,6 +69,7 @@ export class NewTrackerComponent implements OnInit {
       this.service.createTracker(this.form.value).subscribe({
         next: (tracker: InvestmentTracker) => {
           this.form.reset();
+          // TOTO: 
           this.router.navigate([`/finance/tracker/${tracker.id}`]);
         },
         error: (error: any) => {

@@ -1,0 +1,50 @@
+@if(tracker != null) {
+    <main class="w-full h-screen min-h-screen flex flex-col relative">
+        <header class="w-full h-16 app-container fixed top-0 bg-white shadow flex items-center justify-between">
+            <div class="flex items-center gap-2 overflow-hidden">
+                <button routerLink="/finance/investment-tracker" class="material-symbols-rounded hover:text-primary-600">arrow_back</button>
+                <div class="flex items-center gap-2 p-3 hover:bg-primary-200/50 cursor-pointer">
+                    <span class="p-2 rounded-full bg-primary-200 material-symbols-rounded text-primary-600">account_balance</span>      
+                    <div class="flex-1 overflow-hidden">
+                        <div class="font-medium text-truncate">
+                            <div class="text-md font-medium text-black text-wrap line-clamp-1">{{tracker.title}}</div>
+                            <p class="text-sm text-primary-600">{{tracker.updatedOn | date: 'mediumDate' }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>        
+            <div class="h-16 flex items-center space-x-4 md:space-x-6 lg:space-x-8">
+              <button class="material-symbols-rounded symbols-filled hover:text-primary-600">notifications</button>
+              @if (selectionModel.selected.length > 0) {
+                  <button (click)="deleteInvestments(selectionModel.selected)" class="material-symbols-rounded symbols-filled hover:text-primary-600">delete</button>
+              }
+              <button class="material-symbols-rounded hover:text-primary-600">more_vert</button>
+          </div>
+        </header>
+    
+        <section class="grow pb-32 pt-20">
+            @for(dateGroup of investments | keyvalue; track $index) {
+                <div class="relative space-y-2 bg-white">
+                  <div class="sticky top-0 w-full text-xs font-medium flex items-center justify-center">
+                    <span class="bg-ascent-500 text-white px-3 py-2 my-1 rounded-lg uppercase font-medium">{{dateGroup.key | date: 'fullDate'}}</span>
+                  </div>
+                  <div>
+                    @for (investment of dateGroup.value; track $index) {
+                        <app-tracker-investment-item #investmentItem [investment]="investment" [canShare]="false" [selected]="selectionModel.isSelected(investment)" [rigthtAligned]="true" appLongPress (longPress)="toggleSelection(investment)" (shortClick)="shortClick(investment)"  />
+                    }
+                  </div>
+                  
+                </div>        
+              }
+              @empty {
+                <div class="w-full app-container py-4 h-96 flex items-center justify-center text-primary-600 font-medium">No investments found</div>
+              }
+        </section>
+        <footer class="w-full app-container overflow-hidden">
+          <div class=" m-6 fixed bottom-0 right-0">
+            <button [routerLink]="['/finance/new-investment/', tracker.id]" class="inline-flex items-center gap-3 font-medium text-sm text-white bg-primary-900 rounded-full shadow-md shadow-primary-200 px-5 py-3"><span class="material-symbols-rounded">add</span> New Investment</button>
+          </div>
+        </footer>
+    </main>    
+    
+}
