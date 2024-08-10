@@ -22,26 +22,27 @@
           </div>
         </header>
     
-        <section class="grow pb-32 pt-20">
-            @for(dateGroup of investments | keyvalue; track $index) {
-                <div class="relative space-y-2 bg-white">
-                  <div class="sticky top-0 w-full text-xs font-medium flex items-center justify-center">
-                    <span class="bg-ascent-500 text-white px-3 py-2 my-1 rounded-lg uppercase font-medium">{{dateGroup.key | date: 'fullDate'}}</span>
-                  </div>
-                  <div>
-                    @for (investment of dateGroup.value; track $index) {
-                        <app-tracker-investment-item #investmentItem [investment]="investment" [canShare]="false" [selected]="selectionModel.isSelected(investment)" [rigthtAligned]="true" appLongPress (longPress)="toggleSelection(investment)" (shortClick)="shortClick(investment)"  />
-                    }
-                  </div>
-                  
-                </div>        
-              }
-              @empty {
-                <div class="w-full app-container py-4 h-96 flex items-center justify-center text-primary-600 font-medium">No investments found</div>
-              }
+        <section class="grow pb-32 pt-20 overflow-auto">
+          @for(dateGroup of investments | keyvalue; track $index) {
+            <div class="relative space-y-2 bg-white">
+              <div class="w-full app-container">
+                <div class="text-md font-semibold text-black uppercase">{{dateGroup.key}}</div>
+              </div>                
+              <div>
+                @for (investment of dateGroup.value; track $index) {
+                    <app-tracker-investment-item #investmentItem [investment]="investment" [canShare]="false" [selected]="selectionModel.isSelected(investment)" [rigthtAligned]="true"   />
+                }
+              </div>                
+            </div>        
+          }
+          @empty {
+            <div class="w-full app-container py-4 h-96 flex items-center justify-center text-primary-600 font-medium">No investments found</div>
+          }
+            
         </section>
         <footer class="w-full app-container overflow-hidden">
-          <div class=" m-6 fixed bottom-0 right-0">
+          <div class=" m-6 fixed bottom-0 right-0 space-x-3 flex items-center">
+            <button (click)="showForecast()" class="font-medium text-sm text-white bg-primary-900 rounded-full shadow-md shadow-primary-200 p-3"><span class="material-symbols-rounded">finance_mode</span></button>
             <button [routerLink]="['/finance/new-investment/', tracker.id]" class="inline-flex items-center gap-3 font-medium text-sm text-white bg-primary-900 rounded-full shadow-md shadow-primary-200 px-5 py-3"><span class="material-symbols-rounded">add</span> New Investment</button>
           </div>
         </footer>
