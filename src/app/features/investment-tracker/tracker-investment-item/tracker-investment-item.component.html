@@ -1,5 +1,5 @@
-@if (investment != null) {
-    <div class="w-full app-container py-1 flex items-center gap-2" [ngClass]="{'flex-row-reverse': rigthtAligned, 'bg-primary-200/50': selected == true}">
+<!-- @if (investment != null) {
+    <div class="w-full app-container py-1 flex items-center gap-2 no-select" [ngClass]="{'flex-row-reverse': rigthtAligned, 'bg-primary-200/50': selected == true}">
         <div class="w-4/5 lg:w-1/2 border border-slate-300 rounded-lg p-1">
             @if(!rigthtAligned) {
                 <div class="px-2 text-xs space-y-1 mb-2">
@@ -35,5 +35,31 @@
                     class="p-2.5 text-md bg-white hover:bg-slate-900 hover:text-white border border-slate-300 rounded-full material-symbols-rounded">share</button>
             </div>
         }    
+    </div>
+} -->
+
+@if(investment != null) {
+    <div class="w-full app-container mb-2" [ngClass]="{'text-red-600': !investment.isCredit, 'text-emerald-600': investment.isCredit}">
+        <div class="flex py-3 gap-3 cursor-pointer">
+            <div class="divide-y-2 divide-slate-200 flex flex-col">
+                <div class="text-sm mb-1">{{investment.investedOn | date: 'dd'}}</div>
+                <div class="text-sm mb-1">{{investment.investedOn | date: 'EEE'}}</div>
+            </div>
+            <div class="flex-1">
+                <div class="flex justify-between">
+                    <div class="font-medium text-truncate">
+                        <div class="text-md font-medium text-wrap line-clamp-1">{{investment.title}}</div>
+                        <p class="text-sm">
+                            @if(investment.isCredit) {
+                               Invested + {{investment.amount | currency: 'INR'}}
+                            } @else {
+                               Withdrew - {{investment.amount | currency: 'INR'}}
+                            }
+                        </p>
+                    </div>
+                    <button class="h-full material-symbols-rounded rounded-md p-2 text-red-600 bg-red-50">delete_sweep</button>
+                </div>
+            </div>
+        </div>
     </div>
 }

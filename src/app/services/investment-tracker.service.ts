@@ -154,34 +154,38 @@ export class InvestmentTrackerService {
     );
   }
 
-  /**
-   * Sorts and groups the given investments by date.
-   * 
-   * @param investments - The array of investments to be sorted and grouped.
-   * @returns A Map object where the keys are normalized dates (ISO string) and the values are arrays of investments.
-   */
-  private sortAndGroupInvestments(investments: Investment[]): Map<string, Investment[]> {
-      // Parse dates and sort investments by date in ascending order (latest investments last)
-      investments.sort((a, b) => {
-        const dateA = new Date(a.investedOn ?? 0).getTime();
-        const dateB = new Date(b.investedOn ?? 0).getTime();
-        return dateA - dateB;
-      });
-
-    // Group investments by normalized date (ISO string as key)
-    const groupedInvestments: Map<string, Investment[]> = investments.reduce((acc, investment) => {
-      const date = investment.investedOn
-      // Normalize date to remove time part and use ISO string
-      const normalizedDate = new Date(date.getFullYear(), date.getMonth(), date.getDate()).toISOString();
-      if (!acc.has(normalizedDate)) {
-        acc.set(normalizedDate, []);
-      }
-      acc.get(normalizedDate)!.push(investment);
-      return acc;
-    }, new Map<string, Investment[]>());
-  
-    return groupedInvestments;
+  listInvestmentsArray(trackerId: string): Observable<Investment[]> {
+    return this.db.getAllByIndex<Investment>('investments', 'trackerId', IDBKeyRange.only(trackerId))
   }
+
+  /**
+ * Sorts and groups the given investments by month and year.
+ * 
+ * @param investments - The array of investments to be sorted and grouped.
+ * @returns A Map object where the keys are month and year (e.g., "August 2024") and the values are arrays of investments.
+ */
+private sortAndGroupInvestments(investments: Investment[]): Map<string, Investment[]> {
+  // Parse dates and sort investments by date in ascending order (latest investments last)
+  investments.sort((a, b) => {
+    const dateA = new Date(a.investedOn ?? 0).getTime();
+    const dateB = new Date(b.investedOn ?? 0).getTime();
+    return dateA - dateB;
+  });
+
+  // Group investments by month and year
+  const groupedInvestments: Map<string, Investment[]> = investments.reduce((acc, investment) => {
+    const date = new Date(investment.investedOn);
+    const monthYear = date.toLocaleString('default', { month: 'long', year: 'numeric' });
+    
+    if (!acc.has(monthYear)) {
+      acc.set(monthYear, []);
+    }
+    acc.get(monthYear)!.push(investment);
+    return acc;
+  }, new Map<string, Investment[]>());
+
+  return groupedInvestments;
+}
   
   
   /**
@@ -204,9 +208,9 @@ export class InvestmentTrackerService {
           switchMap(() => {
             let updateMessage = ''
             if (investment.isCredit) {
-              updateMessage = `You invested ${tracker.defaultCurrency} ${investment.amount} on ${investment.investedOn.toDateString()}`;
+              updateMessage = `Invested ${tracker.defaultCurrency} ${investment.amount}`;
             } else {
-              updateMessage = `You withdrew ${tracker.defaultCurrency} ${investment.amount} on ${investment.investedOn.toDateString()}`;
+              updateMessage = `Withdrew ${tracker.defaultCurrency} ${investment.amount}`;
             }
             return this.updateTracker(tracker, updateMessage).pipe(
               map(() => investment)

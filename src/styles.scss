@@ -26,5 +26,10 @@
     @apply  mx-auto container px-4 md:px-6 lg:px-8 xl:px-16;
 }
 
+.mat-bottom-sheet-container {
+    background-color: white !important;
+    @apply  rounded-t-2xl bg-white;
+}
+
 html, body { height: 100%; }
 body { margin: 0;  font-family: "Google Sans", "Poppins", sans-serif; }
