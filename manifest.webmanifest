@@ -7,7 +7,7 @@
   "background_color": "#ffffff",
   "display": "standalone",
   "scope": "./",
-  "start_url": "./",
+  "start_url": "./index.html",
   "orientation": "any",
   "icons":  [
     {"src": "icons/round-png/icon-16x16.png", "sizes": "16x16", "type": "image/png"},
