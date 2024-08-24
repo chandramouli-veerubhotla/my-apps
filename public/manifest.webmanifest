@@ -1,11 +1,14 @@
 {
   "name": "My Apps",
   "short_name": "My Apps",
+  "description": "My Apps offers you with utility tools for travel and financial planning, designed with a privacy-first approach that ensures all information is stored locally on your device.",
+  "lang": "en-US",
   "theme_color": "#ffffff",
   "background_color": "#ffffff",
   "display": "standalone",
-  "scope": "./",
-  "start_url": "./index.html",
+  "scope": "/",
+  "start_url": "/",
+  "orientation": "any",
   "icons":  [
     {"src": "icons/round-png/icon-16x16.png", "sizes": "16x16", "type": "image/png"},
     {"src": "icons/round-png/icon-32x32.png", "sizes": "32x32", "type": "image/png"},
