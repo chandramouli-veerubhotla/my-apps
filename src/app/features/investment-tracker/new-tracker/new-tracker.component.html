@@ -1,6 +1,6 @@
-<main class="w-full h-screen flex flex-col relative" [@slideIn]>
+<main class="w-full h-screen flex flex-col relative">
     <header class="w-full h-16 app-container flex items-center justify-between">
-        <button routerLink="/finance/investment-tracker" class="material-symbols-rounded hover:text-primary-600">arrow_back</button>
+        <button routerLink="/finance/investment-tracker" class="material-symbols-rounded hover:text-primary-600">close</button>
     </header>
     <div class="w-full app-container space-y-1">
         <h1 class="text-2xl md:text-3xl text-black font-bold font-ascent">New Tracker</h1>
@@ -23,6 +23,14 @@
             @if(titleControl?.hasError('minlength') && titleControl?.touched) {
                 <mat-error class="text-xs text-red-600">Title should be atleast <span class="font-bold">3 characters.</span></mat-error>
             }
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Currency</mat-label>
+            <mat-select formControlName="defaultCurrency" placeholder="Select Currency">
+                @for (currency of CURRENCIES; track $index) {
+                    <mat-option [value]="currency">{{ currency }}</mat-option>
+                }                   
+            </mat-select>
         </mat-form-field>
         <mat-form-field appearance="outline" class="w-full">
             <mat-label class="text-sm font-medium text-primary-600">Default Interest Rate (%)</mat-label>

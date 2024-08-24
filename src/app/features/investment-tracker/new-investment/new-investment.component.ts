@@ -17,16 +17,7 @@ import { MatNativeDateModule } from '@angular/material/core';
   standalone: true,
   imports: [RouterLink, CurrencyPipe, DatePipe, MatInputModule, MatDatepickerModule, MatNativeDateModule, MatSelectModule, MatFormFieldModule, ReactiveFormsModule],
   templateUrl: './new-investment.component.html',
-  styleUrl: './new-investment.component.scss',
-  animations: [
-    trigger('slideIn', [
-      state('void', style({ transform: 'translateX(50%)', opacity: 0 })),
-      state('*', style({ transform: 'translateX(0)', opacity: 1 })),
-      transition(':enter', [
-        animate('0.15s ease-in')
-      ])
-    ])
-  ]
+  styleUrl: './new-investment.component.scss'
 })
 export class NewInvestmentComponent implements OnInit {
 
@@ -54,14 +45,20 @@ export class NewInvestmentComponent implements OnInit {
   constructor(private service: InvestmentTrackerService, private router: Router) { }
 
   ngOnInit(): void {
-    let monthYearStr = this.getCurrentMonthYear()
+    let monthYearStr = this.getMonthYear(new Date())
     this.form.patchValue({title: monthYearStr, investedOn: new Date()});
+
+    this.form.controls['investedOn'].valueChanges.subscribe({
+      next: (value) => {
+        let monthYearStr = this.getMonthYear(value);
+        this.form.patchValue({title: monthYearStr});
+      }
+    })
   }
 
-  getCurrentMonthYear(): string {
-    const date = new Date();
+  getMonthYear(date: Date): string {
     const options = { year: 'numeric', month: 'long' } as const;
-    return new Intl.DateTimeFormat('en-US', options).format(date);
+    return new Intl.DateTimeFormat('en-US', options).format(date)
   }
 
   // Form Group for the new investment form allows to fetch information from the user.

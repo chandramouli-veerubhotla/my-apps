@@ -23,9 +23,9 @@ export class TrackerComponent implements OnInit, AfterViewInit {
   @ViewChildren('investmentItem', { read: ElementRef }) investmentItems!: QueryList<ElementRef>;
 
   ngAfterViewInit(): void {
-    this.investmentItems.changes.subscribe(() => {
-      this.scrollToLastInvestment();
-    });
+    // this.investmentItems.changes.subscribe(() => {
+    //   this.scrollToLastInvestment();
+    // });
   }
 
   scrollToLastInvestment(): void {

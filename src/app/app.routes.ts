@@ -13,17 +13,20 @@ export const routes: Routes = [
     {
         path: 'finance/investment-tracker',
         component: InvestmentDashboardPage,
-        title: 'My Apps | Investment Tracker'
+        title: 'My Apps | Investment Tracker',
+        data: { animation: 'investmentDashboardPage' }
     },
     {
         path: 'finance/new-tracker',
         component: NewInvestmentTrackerPage,
-        title: 'My Apps | New Investment Tracker'
+        title: 'My Apps | New Investment Tracker',
+        data: { animation: 'newTrackerPage' }
     },
     {
         path: 'finance/tracker/:id',
         component: InvestmentTrackerPage,
-        title: 'My Apps | Investment Tracker'
+        title: 'My Apps | Investment Tracker',
+        data: { animation: 'investmentTrackerPage' }
     },
     {
         path: 'finance/new-investment/:id',

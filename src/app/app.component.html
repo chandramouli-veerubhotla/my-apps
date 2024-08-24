@@ -5,4 +5,6 @@
       <button class="px-5 py-2.5 rounded-full bg-gray-300 text-black" (click)="updateApp()">Update Now</button>
     </div>
   }
-<router-outlet />
+  <div [@routeAnimations]="getRouteAnimationData()">
+    <router-outlet #outlet></router-outlet>
+  </div>

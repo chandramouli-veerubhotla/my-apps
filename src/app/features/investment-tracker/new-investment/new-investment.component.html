@@ -1,4 +1,4 @@
-<main class="w-full h-screen flex flex-col relative" [@slideIn]>
+<main class="w-full h-screen flex flex-col relative">
     <header class="w-full h-16 app-container flex items-center justify-between">
         <button routerLink="/finance/investment-tracker" class="material-symbols-rounded hover:text-primary-600">arrow_back</button>
     </header>
@@ -8,6 +8,26 @@
     </div>
 
     <form class="w-full app-container text-sm font-medium space-y-3 mt-6" [formGroup]="form">
+        <mat-form-field appearance="outline" class="w-full">
+            <mat-label>Investment Date</mat-label>
+            <input matInput #date formControlName="investedOn" [matDatepicker]="picker" (focus)="picker.open()" (click)="picker.open()" placeholder="Choose investment date">
+            @if(investedOnControl?.hasError('required') && investedOnControl?.touched) {
+                <mat-error class="text-xs text-red-600">Investment Date is <span class="font-bold">mandatory</span></mat-error>
+            }
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            @if (date?.value != '') {
+                <mat-hint class="text-xs text-primary-600">
+                    @if (isCredit?.value == true) {
+                        You invested on {{date.value | date: 'mediumDate'}}
+                    } @else {
+                        You borrowed on {{date.value | date: 'mediumDate'}}
+                    }
+                </mat-hint>
+            } @else {
+                <mat-hint class="text-xs text-primary-600">MM/DD/YYYY</mat-hint>
+            }
+          </mat-form-field>
         <mat-form-field appearance="outline" class="w-full">
             <mat-label class="text-sm font-medium text-primary-600">Title</mat-label>
             <input matInput formControlName="title" autocomplete="off" class="text-md font-bold text-primary-900" placeholder="Enter investment name">
@@ -51,26 +71,7 @@
                 </mat-form-field>
             </div>
         </div>
-        <mat-form-field appearance="outline" class="w-full">
-            <mat-label>Investment Date</mat-label>
-            <input matInput #date formControlName="investedOn" [matDatepicker]="picker" (focus)="picker.open()" (click)="picker.open()" placeholder="Choose investment date">
-            @if(investedOnControl?.hasError('required') && investedOnControl?.touched) {
-                <mat-error class="text-xs text-red-600">Investment Date is <span class="font-bold">mandatory</span></mat-error>
-            }
-            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-            @if (date?.value != '') {
-                <mat-hint class="text-xs text-primary-600">
-                    @if (isCredit?.value == true) {
-                        You invested on {{date.value | date: 'mediumDate'}}
-                    } @else {
-                        You borrowed on {{date.value | date: 'mediumDate'}}
-                    }
-                </mat-hint>
-            } @else {
-                <mat-hint class="text-xs text-primary-600">MM/DD/YYYY</mat-hint>
-            }
-          </mat-form-field>
+        
         <mat-form-field appearance="outline" class="w-full">
             <mat-label class="text-sm font-medium text-primary-600">Interest Rate (%)</mat-label>
             <input matInput formControlName="interestRate" type="number" class="text-md font-bold text-primary-900" placeholder="Enter Annual Interest Rate (%)">

@@ -7,25 +7,19 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
 import { InvestmentTracker, InvestmentTrackerService } from '../../../services/investment-tracker.service';
 import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { catchError, debounceTime, first, map, Observable, of, switchMap } from 'rxjs';
+import { MatSelectModule } from '@angular/material/select';
 
 
 @Component({
   selector: 'app-new-tracker',
   standalone: true,
-  imports: [RouterLink, MatInputModule, MatFormFieldModule, ReactiveFormsModule],
+  imports: [RouterLink, MatInputModule, MatFormFieldModule, MatSelectModule, ReactiveFormsModule],
   templateUrl: './new-tracker.component.html',
-  styleUrl: './new-tracker.component.scss',
-  animations: [
-    trigger('slideIn', [
-      state('void', style({ transform: 'translateX(50%)', opacity: 0 })),
-      state('*', style({ transform: 'translateX(0)', opacity: 1 })),
-      transition(':enter', [
-        animate('0.15s ease-in')
-      ])
-    ])
-  ]
+  styleUrl: './new-tracker.component.scss'
 })
 export class NewTrackerComponent implements OnInit {
+
+  CURRENCIES: Array<string> = ['INR', 'USD', 'EURO']
 
   constructor(private service: InvestmentTrackerService, private router: Router) { }
 
@@ -36,6 +30,7 @@ export class NewTrackerComponent implements OnInit {
   // Form Group for the new tracker form allows to fetch information from the user.
   form: FormGroup = new FormGroup({
     title: new FormControl<string>('', [Validators.required, Validators.minLength(3), Validators.maxLength(30)], [this.uniqueTitleValidatorFn()]),
+    defaultCurrency: new FormControl<string>('INR'),
     defaultInterestRate: new FormControl<number|null>(null, [Validators.min(0), Validators.max(100)]),
     description: new FormControl<string|null>(null, [Validators.maxLength(200)])    
   })
@@ -69,7 +64,6 @@ export class NewTrackerComponent implements OnInit {
       this.service.createTracker(this.form.value).subscribe({
         next: (tracker: InvestmentTracker) => {
           this.form.reset();
-          // TOTO: 
           this.router.navigate([`/finance/tracker/${tracker.id}`]);
         },
         error: (error: any) => {
