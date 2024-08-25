@@ -1,7 +1,10 @@
 <main class="w-full h-screen flex flex-col relative">
     
-    <header class="main-heade bg-primary-900 text-primary-200 w-full app-container sticky top-0 flex items-center justify-between">
-        <div class="text-wrap line-clamp-1 text-lg md:text-xl lg:text-2xl font-light text-primary-200"><span class="font-bold text-ascent-500">MY</span> Apps</div>
+    <header class="main-header text-primary-600 w-full app-container sticky top-0 flex items-center justify-between">
+        <div class="flex items-center space-x-1 md:space-x-2 cursor-pointer" xrouterLink="/">
+            <img src="icons/round-png/small/icon-32x32.png">
+            <div class="text-wrap line-clamp-1 text-lg md:text-xl font-light text-primary-600"> Apps</div>
+        </div>
         <div class="h-16 flex items-center space-x-4 md:space-x-6 lg:space-x-8">
             <button class="material-symbols-rounded symbols-filled hover:text-primary-600">notifications</button>
             @if (selectionModel.selected.length > 0) {
