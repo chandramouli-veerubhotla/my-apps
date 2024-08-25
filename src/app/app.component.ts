@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
-import { ChildrenOutletContexts, RouterOutlet } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { ChildrenOutletContexts, NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { SwUpdate, VersionEvent } from '@angular/service-worker';
 import { routeAnimations } from './route-animations';
+
+declare let gtag: Function;
 
 @Component({
   selector: 'app-root',
@@ -11,11 +13,11 @@ import { routeAnimations } from './route-animations';
   styleUrl: './app.component.scss',
   animations: [routeAnimations]
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'my-apps';
   updateAvailable = false;
 
-  constructor(private swUpdate: SwUpdate, private contexts: ChildrenOutletContexts) {
+  constructor(private router: Router, private swUpdate: SwUpdate, private contexts: ChildrenOutletContexts) {
     if (this.swUpdate.isEnabled) {
       this.swUpdate.versionUpdates.subscribe((event: VersionEvent) => {
         if (event.type === 'VERSION_READY') {
@@ -23,6 +25,16 @@ export class AppComponent {
         }
       });
     }
+   }
+
+   ngOnInit(): void {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        gtag('config', 'G-VYXC4WPVFS', {
+          page_path: event.urlAfterRedirects
+        });
+      }
+    });
    }
 
    updateApp() {
