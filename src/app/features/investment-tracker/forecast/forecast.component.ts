@@ -6,7 +6,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import {  MatInputModule } from '@angular/material/input';
 import { Investment, InvestmentTrackerService } from '../../../services/investment-tracker.service';
-import { CurrencyPipe } from '@angular/common';
+import { CurrencyPipe, DatePipe } from '@angular/common';
 
 
 export interface ForecastInformation {
@@ -23,7 +23,7 @@ export interface ForecastInformation {
 @Component({
   selector: 'app-forecast',
   standalone: true,
-  imports: [CurrencyPipe, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatDatepickerModule, MatNativeDateModule],
+  imports: [CurrencyPipe, DatePipe, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatDatepickerModule, MatNativeDateModule],
   templateUrl: './forecast.component.html',
   styleUrl: './forecast.component.scss'
 })
