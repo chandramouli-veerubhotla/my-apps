@@ -12,10 +12,12 @@ import { CurrencyPipe } from '@angular/common';
 export interface ForecastInformation {
   numInvestments: number;
   tillDate: Date;
-  totalCredit: number;
-  totalDebit: number;
-  totalCreditInterest: number;
-  totalDebitInterest: number;
+  finalValue?: number;
+  finalValueWithInterest?: number;
+  totalInvested?: number;
+  totalInvestedWithInterest?: number;
+  totalWithdrew?: number;
+  totalWithdrewWithInterest?: number;
 }
 
 @Component({
@@ -116,6 +118,15 @@ calculateInterest(investment: Investment, tillDate: Date): number {
   forecast() {
     if (this.form.valid && this.investments != null) {
       const tillDate = new Date(this.form.value.tillDate);
+
+      let finalValue = 0.;
+      let finalValueWithInterest = 0.;
+      
+      let totalInvested = 0.;
+      let totalInvestedWithInterest = 0.;
+
+      let totalWithdrew = 0.;
+      let totalWithdrewWithInterest = 0.;
   
       let totalCredit = 0;
       let totalDebit = 0;
@@ -125,23 +136,29 @@ calculateInterest(investment: Investment, tillDate: Date): number {
       this.investments.forEach((investment: Investment) => {
         let totalAmount = this.calculateInterest(investment, tillDate);
         let totalInterest = totalAmount - investment.amount;
-
+        
         if (investment.isCredit) {
-          totalCredit += totalAmount;
-          totalCreditInterest += totalInterest;
+          finalValue += investment.amount;
+          totalInvested += investment.amount;
+          totalInvestedWithInterest += totalInterest;
+          finalValueWithInterest += totalAmount;
         } else {
-          totalDebit += totalAmount;
-          totalDebitInterest += totalInterest;
+          finalValue -= investment.amount;
+          totalWithdrew += investment.amount;
+          totalWithdrewWithInterest += totalInterest;
+          finalValueWithInterest -= totalAmount;
         }
       })
 
       let forecastInformation: ForecastInformation = {
         numInvestments: this.investments.length,
         tillDate: tillDate,
-        totalCredit: totalCredit,
-        totalDebit: totalDebit,
-        totalCreditInterest: totalCreditInterest,
-        totalDebitInterest: totalDebitInterest
+        finalValue: finalValue,
+        finalValueWithInterest: finalValueWithInterest,
+        totalInvested: totalInvested,
+        totalInvestedWithInterest: totalInvestmentWithInterest,
+        totalWithdrew: totalWithdrew,
+        totalWithdrewWithInterest: totalWithdrewWithInterest
       }
 
       this.forecastInfo = forecastInformation;
