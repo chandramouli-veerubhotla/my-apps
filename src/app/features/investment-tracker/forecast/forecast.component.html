@@ -32,16 +32,22 @@
         } @else {
             <div class="w-full space-y-2 text-center font-medium">
                 <div>
-                    <div class="text-sm font-medium text-slate-500">Total Value</div>
-                    <div class="text-lg font-bold text-emerald-600">{{(forecastInfo.totalCredit - forecastInfo.totalDebit)| currency: 'INR'}}</div>
+                    <div class="text-sm font-medium text-slate-500">Value as on {{forecastInfo.tillDate | date: 'medium'}}</div>
+                    <div class="text-lg font-bold text-emerald-600">{{forecastInfo.finalValueWithInterest| currency: 'INR'}}</div>
                 </div>
                 <div>
-                    <div class="text-sm font-medium text-slate-500">Credit (Invested)</div>
-                    <div class="text-lg font-bold text-emerald-600">+{{forecastInfo.totalCredit| currency: 'INR'}}</div>
+                    <div class="text-sm font-medium text-slate-500">Investment</div>
+                    <div class="text-lg font-bold">
+                      <span class="text-emerald-600">+{{forecastInfo.totalInvested | currency: 'INR'}}</span>
+                      <span class="text-red-600">-{{forecastInfo.totalWithdrew | currency: 'INR'}}</span>
+                    </div>
                 </div>
                 <div>
-                    <div class="text-sm font-medium text-slate-500">Debit (Withdrew)</div>
-                    <div class="text-lg font-bold text-red-600">-{{forecastInfo.totalDebit| currency: 'INR'}}</div>
+                    <div class="text-sm font-medium text-slate-500">Interest</div>
+                    <div class="text-lg font-bold">
+                      <span class="text-emerald-600">+{{(forecastInfo.totalInvestedWithInterest - forecastInfo.totalInvested)  | currency: 'INR'}}</span>
+                      <span class="text-red-600">-{{(forecastInfo.totalWithdrewWithInterest - forecastInfo.totalWithdrew) | currency: 'INR'}}</span>
+                    </div>
                 </div>
             </div>
         }        
