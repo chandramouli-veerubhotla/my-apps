@@ -12,12 +12,12 @@ import { CurrencyPipe, DatePipe } from '@angular/common';
 export interface ForecastInformation {
   numInvestments: number;
   tillDate: Date;
-  finalValue?: number;
-  finalValueWithInterest?: number;
-  totalInvested?: number;
-  totalInvestedWithInterest?: number;
-  totalWithdrew?: number;
-  totalWithdrewWithInterest?: number;
+  finalValue: number;
+  finalValueWithInterest: number;
+  totalInvested: number;
+  totalInvestedWithInterest: number;
+  totalWithdrew: number;
+  totalWithdrewWithInterest: number;
 }
 
 @Component({
@@ -127,11 +127,6 @@ calculateInterest(investment: Investment, tillDate: Date): number {
 
       let totalWithdrew = 0.;
       let totalWithdrewWithInterest = 0.;
-  
-      let totalCredit = 0;
-      let totalDebit = 0;
-      let totalCreditInterest = 0;
-      let totalDebitInterest = 0;
 
       this.investments.forEach((investment: Investment) => {
         let totalAmount = this.calculateInterest(investment, tillDate);
@@ -140,12 +135,12 @@ calculateInterest(investment: Investment, tillDate: Date): number {
         if (investment.isCredit) {
           finalValue += investment.amount;
           totalInvested += investment.amount;
-          totalInvestedWithInterest += totalInterest;
+          totalInvestedWithInterest += totalAmount;
           finalValueWithInterest += totalAmount;
         } else {
           finalValue -= investment.amount;
           totalWithdrew += investment.amount;
-          totalWithdrewWithInterest += totalInterest;
+          totalWithdrewWithInterest += totalAmount;
           finalValueWithInterest -= totalAmount;
         }
       })
@@ -156,7 +151,7 @@ calculateInterest(investment: Investment, tillDate: Date): number {
         finalValue: finalValue,
         finalValueWithInterest: finalValueWithInterest,
         totalInvested: totalInvested,
-        totalInvestedWithInterest: totalInvestmentWithInterest,
+        totalInvestedWithInterest: totalInvestedWithInterest,
         totalWithdrew: totalWithdrew,
         totalWithdrewWithInterest: totalWithdrewWithInterest
       }

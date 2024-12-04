@@ -31,23 +31,28 @@
             </form>
         } @else {
             <div class="w-full space-y-2 text-center font-medium">
-                <div>
-                    <div class="text-sm font-medium text-slate-500">Value as on {{forecastInfo.tillDate | date: 'medium'}}</div>
-                    <div class="text-lg font-bold text-emerald-600">{{forecastInfo.finalValueWithInterest| currency: 'INR'}}</div>
-                </div>
+                
                 <div>
                     <div class="text-sm font-medium text-slate-500">Investment</div>
-                    <div class="text-lg font-bold">
-                      <span class="text-emerald-600">+{{forecastInfo.totalInvested | currency: 'INR'}}</span>
-                      <span class="text-red-600">-{{forecastInfo.totalWithdrew | currency: 'INR'}}</span>
+                    <div class="text-lg font-bold gap-2">
+                      <span class="text-emerald-600 mr-2">+ {{forecastInfo.totalInvested | currency: 'INR'}}</span>
+                      <span class="text-red-600">- {{forecastInfo.totalWithdrew | currency: 'INR'}}</span>
                     </div>
                 </div>
                 <div>
                     <div class="text-sm font-medium text-slate-500">Interest</div>
-                    <div class="text-lg font-bold">
-                      <span class="text-emerald-600">+{{(forecastInfo.totalInvestedWithInterest - forecastInfo.totalInvested)  | currency: 'INR'}}</span>
-                      <span class="text-red-600">-{{(forecastInfo.totalWithdrewWithInterest - forecastInfo.totalWithdrew) | currency: 'INR'}}</span>
+                    <div class="text-lg font-bold gap-2">
+                      <span class="text-emerald-600 mr-2">+ {{(forecastInfo.totalInvestedWithInterest - forecastInfo.totalInvested)  | currency: 'INR'}}</span>
+                      <span class="text-red-600">- {{(forecastInfo.totalWithdrewWithInterest - forecastInfo.totalWithdrew) | currency: 'INR'}}</span>
                     </div>
+                </div>
+                <div>
+                    <div class="text-sm font-medium text-slate-500">Value as on {{forecastInfo.tillDate | date: 'fullDate'}}</div>
+                    @if(forecastInfo.finalValueWithInterest > 0) {
+                        <div class="text-lg font-bold text-emerald-600">+ {{forecastInfo.finalValueWithInterest | currency: 'INR'}}</div>
+                    } @else {
+                        <div class="text-lg font-bold text-red-600">- {{forecastInfo.finalValueWithInterest | currency: 'INR'}}</div>
+                    }
                 </div>
             </div>
         }        
